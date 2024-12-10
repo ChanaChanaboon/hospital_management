@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Doctors</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/patients">Patients</a>
+        <a href="/doctors">Doctors</a>
+        <a href="/departments">Departments</a>
+        <a href="/appointments">Appointments</a>
+    </nav>
+
+    <div class="search-container">
+        <form th:action="@{/doctors}" method="get">
+            <label for="searchBy">Search By:</label>
+            <select id="searchBy" name="searchBy" required>
+                <option value="id">ID</option>
+                <option value="name">Name</option>
+            </select>
+            <input type="text" name="searchValue" placeholder="Enter value" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>Doctors</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Specialty</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="doctor : ${doctors}">
+                    <td th:text="${doctor.doctorID}"></td> <!-- Use doctor.doctorID -->
+                    <td th:text="${doctor.name}"></td>
+                    <td th:text="${doctor.specialty}"></td>
+                    <td th:text="${doctor.contact}"></td>
+                    <td th:text="${doctor.department != null ? doctor.department.name : 'N/A'}"></td>
+                    <td>
+                        <a th:href="@{'/doctors/' + ${doctor.doctorID} + '/edit'}">Edit</a> |
+                        <a th:href="@{'/doctors/delete/' + ${doctor.doctorID}}"
+                           onclick="return confirm('Are you sure you want to delete this doctor?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/doctors/new" class="add-button">Add New Doctor</a>
+    </div>
+</body>
+</html>

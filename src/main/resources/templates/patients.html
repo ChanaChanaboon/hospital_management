@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patients</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/patients">Patients</a>
+        <a href="/doctors">Doctors</a>
+        <a href="/departments">Departments</a>
+        <a href="/appointments">Appointments</a>
+    </nav>
+    <!-- Search Form -->
+    <div class="search-container">
+        <form th:action="@{/patients}" method="get">
+            <label for="searchBy">Search By:</label>
+            <select id="searchBy" name="searchBy" required>
+                <option value="id">ID</option>
+                <option value="name">Name</option>
+            </select>
+            <input type="text" name="searchValue" placeholder="Enter value" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Patients</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Admission Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="patient : ${patients}">
+                    <td th:text="${patient.patientID}"></td>
+                    <td th:text="${patient.name}"></td>
+                    <td th:text="${patient.age}"></td>
+                    <td th:text="${patient.gender}"></td>
+                    <td th:text="${patient.address}"></td>
+                    <td th:text="${patient.contact}"></td>
+                    <td th:text="${#dates.format(patient.admissionDate, 'yyyy-MM-dd')}"></td>
+                    <td>
+                        <a th:href="@{'/patients/' + ${patient.patientID} + '/edit'}">Edit</a> |
+                        <a th:href="@{'/patients/delete/' + ${patient.patientID}}"
+                           onclick="return confirm('Are you sure you want to delete this patient?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Add New Patient Button -->
+        <a href="/patients/new" class="add-button">Add New Patient</a>
+    </div>
+</body>
+</html>

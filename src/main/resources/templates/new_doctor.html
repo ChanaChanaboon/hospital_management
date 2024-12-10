@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add New Doctor</title>
+    <!-- Link the global.css file -->
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/patients">Patients</a>
+        <a href="/doctors">Doctors</a>
+        <a href="/departments">Departments</a>
+        <a href="/appointments">Appointments</a>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container">
+        <h1>Add Doctor</h1>
+        <form action="/doctors" method="post" th:object="${doctor}">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required>
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></div>
+
+            <label for="specialty">Specialty:</label>
+            <input type="text" id="specialty" name="specialty" th:field="*{specialty}" required>
+            <div th:if="${#fields.hasErrors('specialty')}" th:errors="*{specialty}" style="color: red;"></div>
+
+            <label for="contact">Contact:</label>
+            <input type="text" id="contact" name="contact" th:field="*{contact}" required>
+            <div th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}" style="color: red;"></div>
+
+            <label for="department">Department:</label>
+            <select id="department" name="department.deptID" th:field="*{department.deptID}">
+                <option th:each="dept : ${departments}" th:value="${dept.deptID}" th:text="${dept.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('department.deptID')}" th:errors="*{department.deptID}" style="color: red;"></div>
+
+            <button type="submit" class="add-button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

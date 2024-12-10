@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add New Appointment</title>
+    <!-- Link the global.css file -->
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/patients">Patients</a>
+        <a href="/doctors">Doctors</a>
+        <a href="/departments">Departments</a>
+        <a href="/appointments">Appointments</a>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container">
+        <h1>Add Appointment</h1>
+        <form action="/appointments/new" method="post" th:object="${appointment}">
+            <label for="patient">Patient:</label>
+            <select id="patient" name="patient.patientID" th:field="*{patient.patientID}">
+                <option th:each="pat : ${patients}" th:value="${pat.patientID}" th:text="${pat.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('patient.patientID')}" th:errors="*{patient.patientID}" style="color: red;"></div>
+
+            <label for="doctor">Doctor:</label>
+            <select id="doctor" name="doctor.doctorID" th:field="*{doctor.doctorID}">
+                <option th:each="doc : ${doctors}" th:value="${doc.doctorID}" th:text="${doc.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('doctor.doctorID')}" th:errors="*{doctor.doctorID}" style="color: red;"></div>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" th:field="*{date}" required>
+            <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color: red;"></div>
+
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" th:field="*{time}" required>
+            <div th:if="${#fields.hasErrors('time')}" th:errors="*{time}" style="color: red;"></div>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status" th:field="*{status}">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="Canceled">Canceled</option>
+            </select>
+            <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red;"></div>
+
+            <button type="submit" class="add-button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
